@@ -1,0 +1,64 @@
+version: "3"
+
+services:
+  store-app: 
+    build:
+      context: .
+    env_file:
+      - .env
+    ports:
+      - "8000:8000"
+    volumes:
+    # Текущая директория пробрасывается в директорию /store внутри контейнера
+    # Путь внутри контейнера (после двоеточия) обязательно должен быть абсолютным
+    # "мост" дает возм-ть сделать новый файл в докере и он появится сразу в локальном проекте(например docker-compose exec web-app ./manage.py startapp new app - команда которая в докер контейнере создает новое джанго приложение), и на оборот создав новый файл любой локально он сразу будет и в докере без ребилда.
+      - ./store:/store
+    environment: # переменные среды линукс
+      - DB_HOST=database  # ссылка на сервис database
+      - POSTGRES_DB=postgres
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+    command: >
+      sh -c "python manage.py runserver 0.0.0.0:8000"
+    # command - команда, которая будет выполнена после старта сервиса | 'sh -c' значит что должна использовать shell (sh) linux для запуска команды (-с)
+    depends_on:
+      database:
+        condition: service_healthy
+        # добавлен т.к. web-app не должно запускаться раньше чем БД
+
+  database:
+    image: postgres:15
+    container_name: 'postgres_1'
+    restart: always
+    env_file:
+      - .env
+    environment:
+      DB_HOST: ${DB_HOST}
+      POSTGRES_DB: ${POSTGRES_DB}
+      POSTGRES_USER: ${POSTGRES_USER}
+      POSTGRES_PASSWORD: ${POSTGRES_PASSWORD}
+      PGDATA: ${PGDATA}
+    volumes:
+       - my_db:/var/lib/postgresql/data
+      # my_db:/var/lib/postgresql/data означает, что данные в контейнере по пути /var/lib/postgresql/data будут храниться в volume my_db
+    ports:
+      - 5432:5432
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready"]
+      interval: 15s  # раз в 15 сек
+      timeout: 5s  # 5 сек на то чтобы он подумал
+      retries: 3  # если 3 раз подряд ответит неправильно то что-то случилось
+      
+  pgadmin:
+    container_name: pgadmin_1
+    image: dpage/pgadmin4
+    restart: always
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD}
+    ports:
+      - 5050:80
+
+volumes:
+  my_db:
+    
