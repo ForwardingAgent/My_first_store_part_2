@@ -37,14 +37,13 @@
 ## О проекте
 
 
-Мой второй большой проект после самостоятельного изучения языка Python по различным курсам. 
-Сделан по серии роликов в интернете, с помощью обучающих материалов, англоязычных ресурсов (Stackoverflow и тд), и, конечно, не без подсказок более опытных коллег в телеграмм-каналах. 
-О проекте:
-- сделал online магазин с помощью фрэймворка Django и закрепил уже имеющиеся знания по этой платформе.
-- изучил и понял работу программной платформы Docker, а именно весь проект полностью запускается в контейнерах (Python, Django, Postgres).
-- заменил стандартную для Django базу данных SQL на Postgres.
-- проработал на практике SQL-запросы к БД.
-- создал корзину товаров и личный кабинет пользователя.
+Продолжение второго проекта Интернет-магазина.
+Этот вариант так же полностью запускается в Docker'е.
+Здесь будет практические решения по некоторым новым пунктам, а именно:
+- тестирование, кэширование с помошью Redis и отложеные задачи с помощью Celery;
+- Django REST framework, REST API и создание API для проекта;
+- авторизация через социальные сети и подключение платежных систем.
+
 
 ![Main_page](readme-assets/Main_page.png)
 
@@ -60,6 +59,7 @@
 * [![Postgres][Postgres.psg]][Postgres-url]
 * [![Docker][Docker.dkr]][Docker-url]
 * [![Redis][Redis.rds]][Redis-url]
+* [![GitHub][GitHub.gth]][GitHub-url]
 * [![YouTube][YouTube.yt]][YouTube-url]
 
 
@@ -205,6 +205,13 @@ Email - npodkopaev@gmail.com
 
 [Docker.dkr]: https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white
 [Docker-url]: https://www.docker.com
+
+[GitHub.gth]: https://img.shields.io/badge/github-%23121011.svg?style=for-the-badge&logo=github&logoColor=white
+[GitHub-url]: https://github.com
+
+
+[Celery.clr]: https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white
+[Celery-url]: https://docs.celeryq.dev/en/stable/getting-started/introduction.html
 
 [Svelte.dev]: https://img.shields.io/badge/Svelte-4A4A55?style=for-the-badge&logo=svelte&logoColor=FF3E00
 [Svelte-url]: https://svelte.dev/
