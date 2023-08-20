@@ -39,7 +39,7 @@
 
 Продолжение второго проекта Интернет-магазина, этот вариант будет в процессе активного развития и дополнения.
 Он так же полностью запускается с БД  Postgres в Docker'е и здесь будет практические решения по некоторым новым пунктам, а именно:
-- тестирование, кэширование используя Redis и отложеные задачи с помощью Celery;
+- тестирование, кэширование (используя Redis) и отложеные задачи с помощью Celery;
 - Django REST framework, REST API и создание API для проекта;
 - авторизация через социальные сети и подключение платежных систем.
 
@@ -54,10 +54,11 @@
 
 * [![Python][Python.py]][Python-url]
 * [![Django][Django.dj]][Django-url]
-* [![VSCode][VSCode.vsc]][VSCode-url]
 * [![Postgres][Postgres.psg]][Postgres-url]
 * [![Docker][Docker.dkr]][Docker-url]
 * [![Redis][Redis.rds]][Redis-url]
+* [![Celery][Celery.clr]][Celery-url]
+* [![VSCode][VSCode.vsc]][VSCode-url]
 * [![GitHub][GitHub.gth]][GitHub-url]
 * [![YouTube][YouTube.yt]][YouTube-url]
 
@@ -209,7 +210,7 @@ Email - npodkopaev@gmail.com
 [GitHub-url]: https://github.com
 
 
-[Celery.clr]: https://img.shields.io/badge/docker-%230db7ed.svg?style=for-the-badge&logo=docker&logoColor=white
+[Celery.clr]: https://a11ybadges.com/badge?logo=celery
 [Celery-url]: https://docs.celeryq.dev/en/stable/getting-started/introduction.html
 
 [Svelte.dev]: https://img.shields.io/badge/Svelte-4A4A55?style=for-the-badge&logo=svelte&logoColor=FF3E00
