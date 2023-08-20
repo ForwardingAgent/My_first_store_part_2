@@ -152,3 +152,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Users
 AUTH_USER_MODEL = 'users.User'  # 4.6
 LOGIN_URL = '/users/login/'  # 5.5
+
+
+# Sending emails
+
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"

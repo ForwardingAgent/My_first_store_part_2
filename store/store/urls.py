@@ -19,10 +19,12 @@ from django.conf.urls.static import static
 from django.conf import settings  # если "from store import settings" это аналогичный способ, но не все настройки подтягиваются 
 
 from products.views import index
+from products.views_1 import IndexView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
-    path('', index, name='index'),
+    path('', IndexView.as_view(), name='index'),
+    # path('', index, name='index'), 7.3
     path('products/', include('products.urls', namespace='products')),  # урок 4.2 добавили include() https://metanit.com/python/django/3.6.php
     path('users/', include('users.urls', namespace='users')),  # урок 4.7 добавили path('users/'.....
 ]
