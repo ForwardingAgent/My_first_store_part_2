@@ -1,31 +1,14 @@
-from typing import Any
-from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render, HttpResponseRedirect
 from django.contrib.auth.decorators import login_required  # 5.5 не позволяет отрабатывать контроллеру пока не произведена авторизация (неавториз user не может добавить в корзину или зайти на страницу профайла пока не авторизирован)
-
-from django.views.generic.base import TemplateView  # 7.3
-from django.views.generic.list import ListView
-from django.views.generic.edit import CreateView  # 7.5
-
 
 from products.models import ProductCategory, Product, Basket
 from users.models import User
 from django.core.paginator import Paginator
 
 
-class IndexView(TemplateView):  # 7.3 в названии лучше использовать слово View чтобы было понятно что это из Views.py
-    #  TemplateView наследуется от TemplateResponseMixin, ContextMixin, View
-    template_name = 'products/index.html'
-
-    def get_context_data(self, **kwargs):  # get_context_data можно использовать т.к. наследуется от ContextMixin
-        context = super(IndexView, self).get_context_data()  # cоздает словарь | строка нужна для сохранения функционала метода родительского класса, так как мы его переопределили.
-        context['title'] = 'Store'  # дополняем словарь своими данными
-        return context
-
-
-# def index(request):  # функция = контроллер = вьюха   ---комм. 7.3
-#     context = {'title': 'Store'}
-#     return render(request, 'products/index.html', context)
+def index(request):  # функция = контроллер = вьюха
+    context = {'title': 'Store'}
+    return render(request, 'products/index.html', context)
 
 
 def products(request, category_id=None, page_number=1):  # приходит request это title или products или categories. C 6.2 добавили category_id. С 6.3 добавили page=1
@@ -51,18 +34,6 @@ def products(request, category_id=None, page_number=1):  # приходит requ
     # render - объединяем заданный шаблон html с заданным контекстным словарем и возвращаем объект HttpResponse с этим визуализированным кодом.
 
 
-# 7.5 для basket_add и basket_remove нет смясла делать через классы т.к. код практически копируется
-# class BasketCreateView(CreateView):
-#     model = Basket  # от какой модели наследуемся
-# 
-#     def post(self, request: HttpRequest, *args: str, **kwargs: Any) -> HttpResponse:
-#       product = Product.objects.get(id=self.kwargs.get('product_id'))
-#       basket = Basket.objects.filter(user=request.user, product=product)
-#       if not basket.exists():
-#       ........
-#       return super().post(request, *args, **kwargs)
-
-
 @login_required  # декоратор 5.5, можно тут прописать (login_url='/users/login/')чтобы перенаправлять на регистрацию, но пропишем это все в settings внизу
 def basket_add(request, product_id):
     product = Product.objects.get(id=product_id)
@@ -83,3 +54,46 @@ def basket_remove(request, basket_id):
     basket = Basket.objects.get(id=basket_id)
     basket.delete()
     return HttpResponseRedirect(request.META['HTTP_REFERER'])
+
+
+
+'''        'products': [
+            {
+                'image': '/static/vendor/img/products/Adidas-hoodie.png',
+                'name': 'худи черного цвета с монограммами adidas Originals',
+                'price': str(6090),
+                'description': 'Мягкая ткань для свитшотов. Стиль и комфорт – это образ жизни',
+            },
+            {
+                'image': '/static/vendor/img/products/Blue-jacket-The-North-Face.png',
+                'name': 'Синяя куртка The North Face',
+                'price': str(23725),
+                'description': 'Гладкая ткань. Водонепроницаемое покрытие. Легкий и теплый пуховый наполнитель.',
+            },
+            {
+                'image': '/static/vendor/img/products/Brown-sports-oversized-top-ASOS-DESIGN.png',
+                'name': 'Коричневый спортивный oversized-топ ASOS DESIGN',
+                'price': str(3390),
+                'description': 'Материал с плюшевой текстурой. Удобный и мягкий.',
+            },
+            {
+                'image': '/static/vendor/img/products/Black-Nike-Heritage-backpack.png',
+                'name': 'Черный рюкзак Nike Heritage',
+                'price': str(2340),
+                'description': 'Плотная ткань. Легкий материал.',
+            },
+            {
+                'image': '/static/vendor/img/products/Black-Dr-Martens-shoes.png',
+                'name': 'Черные туфли на платформе с 3 парами люверсов Dr Martens 1461 Bex',
+                'price': str(13590),
+                'description': 'Гладкий кожаный верх. Натуральный материал.',
+            },
+            {
+                'image': '/static/vendor/img/products/Dark-blue-wide-leg-ASOs-DESIGN-trousers.png',
+                'name': 'Темно-синие широкие строгие брюки ASOS DESIGN',
+                'price': str(2890),
+                'description': 'Легкая эластичная ткань сирсакер Фактурная ткань.',
+            }
+        ]
+    }
+    return render(request, 'products/products.html', context)'''

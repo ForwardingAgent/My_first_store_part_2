@@ -18,8 +18,8 @@ from django.urls import path, include
 from django.conf.urls.static import static
 from django.conf import settings  # если "from store import settings" это аналогичный способ, но не все настройки подтягиваются 
 
-from products.views import index
-from products.views_1 import IndexView
+# from products.views import index
+from products.views import IndexView
 
 urlpatterns = [
     path('admin/', admin.site.urls),
