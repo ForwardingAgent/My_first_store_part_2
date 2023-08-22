@@ -35,6 +35,10 @@ DEBUG = int(os.environ.get("DEBUG", default=0))
 # ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS")
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0']
 
+DOMAIN_NAME = 'http://127.0.0.1:8000'  # 7.11
+
+
+
 # Application definition
 
 INSTALLED_APPS = [
@@ -158,4 +162,10 @@ LOGOUT_REDIRECT_URL = '/'  # 7.7
 
 # Sending emails
 
-EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+# EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"  для работы в консоли
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'otheroffermailbox@gmail.com'
+EMAIL_HOST_PASSWORD = 'kikjlkzidvfbqqrk'
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
