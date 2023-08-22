@@ -1,7 +1,12 @@
+import uuid
+from datetime import timedelta
+
+from typing import Any
 from django import forms
 from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, UserChangeForm
+from django.utils.timezone import now
 
-from users.models import User
+from users.models import User, EmailVerification
 
 
 class UserLoginForm(AuthenticationForm):  # 4.8, 4.10  создаем красивые формы для регистрации (указываем где в login.html брать логин и пароль)
@@ -32,6 +37,13 @@ class UserRegistrationForm(UserCreationForm):  # 4.11
     class Meta:
         model = User
         fields = ('first_name', 'last_name', 'username', 'email', 'password1', 'password2')
+
+    def save(self, commit: bool = True) -> Any:  # 7.10 это уже существующий метод мы дополняем его через super() 
+        user = super(UserRegistrationForm, self).save(commit=True)  # save возвращает объект user и мы с ним будем работать ниже
+        expiration = now() + timedelta(hours=48)  # сколько действует ссылка
+        record = EmailVerification.objects.create(code=uuid.uuid4(), user=user, expiration=expiration)  # uuid создает каждый раз уникальный код
+        record.send_verification_email()
+        return user  # возвращаем обновленного user
 
 
 class UserProfileForm(UserChangeForm):  # 4.12

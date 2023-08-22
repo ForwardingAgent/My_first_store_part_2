@@ -1,4 +1,5 @@
 from typing import Any, Dict
+from django.http import HttpRequest, HttpResponse
 from django.shortcuts import render, HttpResponseRedirect
 from django.contrib import auth, messages
 from django.urls import reverse, reverse_lazy
@@ -30,6 +31,9 @@ class UserRegistrationView(TitleMixin, SuccessMessageMixin, CreateView):  # 7.6,
     success_url = reverse_lazy('users:login')  # куда перенаправлять
     success_message = 'Поздравляем, вы успешно зарегистрировались!'  # 7.8 Mixins
     title = 'Store - Регистрация'  # 7.8
+
+    # 7.10 def post(self, request: HttpRequest, *args: str, **kwargs: Any) -> HttpResponse:  # у CreateView есть def post(): как вариант для обработки входящего запроса с данными для отправки кода на email, но лучше логику из Views выносить поэтому делаем в forms.py в def save()
+    #    return super().post(request, *args, **kwargs)
 
     # 7.8 def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:  # get_context_data можно использовать т.к. наследуется от ContextMixin
     #     context = super(UserRegistrationView, self).get_context_data(**kwargs)  # cоздает словарь | сначала через super вызываем родительский метод, чтобы он выполнился, и ниже добавляем наши ключи в словарь (т.е. переопределили род.метод)
