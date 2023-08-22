@@ -20,7 +20,7 @@ class UserLoginView(TitleMixin, LoginView):  # 7.7
     form_class = UserLoginForm  # форму которую использовали для логина
     # success_url = reverse_lazy('index') не срабатывает, поэтому пропишем перенаправление в settings LOGIN_REDIRECT_URL='/'
     # ВСЁ, остальное все авторизация (с помощью username и password) и проверки происходят сами.
-    title = 'Store - Авторизация'
+    title = 'Store - Авторизация'  # 7.8
 
 
 class UserRegistrationView(TitleMixin, SuccessMessageMixin, CreateView):  # 7.6, 7.8 SuccessMessageMixin ВСЕГДА ПИШУТСЯ ПЕРВЫМИ!!
@@ -29,7 +29,7 @@ class UserRegistrationView(TitleMixin, SuccessMessageMixin, CreateView):  # 7.6,
     template_name = 'users/registration.html'
     success_url = reverse_lazy('users:login')  # куда перенаправлять
     success_message = 'Поздравляем, вы успешно зарегистрировались!'  # 7.8 Mixins
-    title = 'Store - Регистрация'
+    title = 'Store - Регистрация'  # 7.8
 
     # 7.8 def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:  # get_context_data можно использовать т.к. наследуется от ContextMixin
     #     context = super(UserRegistrationView, self).get_context_data(**kwargs)  # cоздает словарь | сначала через super вызываем родительский метод, чтобы он выполнился, и ниже добавляем наши ключи в словарь (т.е. переопределили род.метод)
