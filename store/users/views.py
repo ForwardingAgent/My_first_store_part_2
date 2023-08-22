@@ -50,11 +50,11 @@ class UserProfileView(TitleMixin, UpdateView):  # 7.6, 7.8 TitleMixin
     def get_success_url(self) -> str:
         return reverse_lazy('users:profile', args=(self.object.id))
 
-    def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:  # get_context_data можно использовать т.к. наследуется от ContextMixin
-        context = super(UserProfileView, self).get_context_data(**kwargs)  # cоздает словарь | сначала через super вызываем родительский метод, чтобы он выполнился, и ниже добавляем наши ключи в словарь (т.е. переопределили род.метод)
-        # 7.8 context['title'] = 'Store - Профиль'  # дополняем словарь своими данными
-        context['baskets'] = Basket.objects.filter(user=self.request.user)
-        return context
+    # 7.13 def get_context_data(self, **kwargs: Any) -> Dict[str, Any]:  # get_context_data можно использовать т.к. наследуется от ContextMixin
+    #     context = super(UserProfileView, self).get_context_data(**kwargs)  # cоздает словарь | сначала через super вызываем родительский метод, чтобы он выполнился, и ниже добавляем наши ключи в словарь (т.е. переопределили род.метод)
+    #     # 7.8 context['title'] = 'Store - Профиль'  # дополняем словарь своими данными
+    #     context['baskets'] = Basket.objects.filter(user=self.request.user)
+    #     return context
 
 
 class EmailVerificationView(TitleMixin, TemplateView):  # 7.11
@@ -71,9 +71,6 @@ class EmailVerificationView(TitleMixin, TemplateView):  # 7.11
             return super(EmailVerificationView, self).get(request, *args, **kwargs)
         else:
             return HttpResponseRedirect(reverse('index'))
-
-
-
 
 
 # def logout(request):  # 4.14  7.7 удалим тут, и добавим встроеный LogoutView.as_view в urls и в settings LOGOUT_REDIRECT_URL
@@ -104,7 +101,7 @@ class EmailVerificationView(TitleMixin, TemplateView):  # 7.11
 #         form = UserRegistrationForm(data=request.POST)
 #         if form.is_valid():
 #             form.save()  # пишем save для формы а он уже вызовет save для объектов и сохранит все в БД (first_name.save(), last_name.save() и тд)
-#             messages.success(request, 'Поздравляем, вы успешно зарегистрировались!')  # 4.13 
+#             messages.success(request, 'Поздравляем, вы успешно зарегистрировались!')  # 4.13
 #             return HttpResponseRedirect(reverse('users:login'))  # перенаправляем на старницу авторизации
 #     else:
 #         form = UserRegistrationForm()
@@ -129,4 +126,3 @@ class EmailVerificationView(TitleMixin, TemplateView):  # 7.11
 #         'baskets': Basket.objects.filter(user=request.user),  # 5.3, а в 5.4 all() изменили не filter(user...) чтобы разделить товары по разным user'ам
 #     }
 #     return render(request, 'users/profile.html', context)
-

@@ -37,8 +37,6 @@ ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0']
 
 DOMAIN_NAME = 'http://127.0.0.1:8000'  # 7.11
 
-
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -77,6 +75,7 @@ TEMPLATES = [
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
+                'products.context_processors.baskets',  # 7.13 контекстный процессор - выносим сюда то что часто используем
             ],
         },
     },
