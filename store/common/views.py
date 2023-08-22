@@ -1,4 +1,4 @@
-class TitleMixin():  # 7.8 
+class TitleMixin:  # 7.8 
     title = None
 
     def get_context_data(self, **kwargs):

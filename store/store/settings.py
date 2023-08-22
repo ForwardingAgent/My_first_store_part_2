@@ -47,8 +47,14 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
+    'allauth',  # 8.4
+    'allauth.account',
+    'allauth.socialaccount',
+    'allauth.socialaccount.providers.github',  # 8.4 для авторизации ч/з github
+
     'products',
     'users',
+    'django.contrib.sites',  # 8.4  и в админке добавилась таблица сайты
     # 'django.contrib.postgres',  # это модуль Django, который предоставляет интеграцию с базой данных PostgreSQL
 ]
 
@@ -72,7 +78,7 @@ TEMPLATES = [
         'OPTIONS': {
             'context_processors': [
                 'django.template.context_processors.debug',
-                'django.template.context_processors.request',
+                'django.template.context_processors.request',  # 8.4 проверяем что есть, нужен для авторизации ч/з соцсети
                 'django.contrib.auth.context_processors.auth',
                 'django.contrib.messages.context_processors.messages',
                 'products.context_processors.baskets',  # 7.13 контекстный процессор - выносим сюда то что часто используем
@@ -161,10 +167,33 @@ LOGOUT_REDIRECT_URL = '/'  # 7.7
 
 # Sending emails
 
-# EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"  для работы в консоли
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_HOST_USER = 'otheroffermailbox@gmail.com'
-EMAIL_HOST_PASSWORD = 'kikjlkzidvfbqqrk'
-EMAIL_USE_TLS = True
-EMAIL_USE_SSL = False
+EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"  # для работы в консоли
+# EMAIL_HOST = 'smtp.gmail.com'
+# EMAIL_PORT = 587
+# EMAIL_HOST_USER = 'otheroffermailbox@gmail.com'
+# EMAIL_HOST_PASSWORD = 'kikjlkzidvfbqqrk'
+# EMAIL_USE_TLS = True
+# EMAIL_USE_SSL = False
+
+
+# OAuth регистрация ч/з соцсети
+
+AUTHENTICATION_BACKENDS = [  # 8.4
+    # Needed to login by username in Django admin, regardless of `allauth`
+    'django.contrib.auth.backends.ModelBackend',
+
+    # `allauth` specific authentication methods, such as login by e-mail
+    'allauth.account.auth_backends.AuthenticationBackend',
+]
+
+SITE_ID = 1  # id сайта, если удалил и создал новый в админке тут id = 2
+
+SOCIALACCOUNT_PROVIDERS = {
+    'github': {
+        'SCOPE': [
+            'user',
+            # 'repo',  не нужны
+            # 'read:org',  не нужны
+        ],
+    }
+}

@@ -5,3 +5,4 @@ psycopg2-binary
 # для подключения python-проекта к postgres
 
 Pillow
+django-allauth
