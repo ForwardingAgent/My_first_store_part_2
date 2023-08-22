@@ -4,28 +4,19 @@ from django.contrib import auth, messages
 from django.urls import reverse, reverse_lazy
 from django.contrib.auth.decorators import login_required  # 5.5 не позволяет отрабатывать контроллеру пока не произведена авторизация (неавториз user не может добавить в корзину или зайти на страницу профайла пока не авторизирован)
 from django.views.generic.edit import CreateView, UpdateView  # 7.6
+from django.contrib.auth.views import LoginView
 
 from users.models import User
 from users.forms import UserLoginForm, UserRegistrationForm, UserProfileForm
 from products.models import Basket
 
 
-# 4.7 урок
-def login(request):  # при первом входе на страницу /users/login/ срабатывает GET запрос и преходит ниже на else которая return пустую форму для заполнения 'users/login.html'
-                     # при заполнении формы и нажатии Авторизоваться срабатывает if, т.к. это POST запрос
-    if request.method == "POST":
-        form = UserLoginForm(data=request.POST)  # заполняем класс UserLoginForm данными из POST запроса, request.POST-это словарь
-        if form.is_valid():  # тут происходит AUDIT (контроль)
-            username = request.POST['username']  # если данные прошли валидацию то из словаря request.POST достаем username
-            password = request.POST['password']  # ... password
-            user = auth.authenticate(username=username, password=password)  # после проверки,  тут происходит AUTHENTICATION (подтверждение личности) надо достать пользователя из БД и понять существует ли он
-            if user:  # == True
-                auth.login(request, user)  # если нашли в БД тут происходит AUTHORISATION (Разрешение)
-                return HttpResponseRedirect(reverse('index'))  # перенаправление посе регистрации на  главную страниц
-    else:
-        form = UserLoginForm()
-    context = {'form': form}
-    return render(request, 'users/login.html', context)
+class UserLoginView(LoginView):  # 7.7
+    # model = ... у нас есть в settings AUTH_USER_MODEL = user.User с ней и работает LoginView
+    template_name = 'users/login.html'
+    form_class = UserLoginForm  # форму которую использовали для логина
+    # success_url = reverse_lazy('index') не срабатывает, поэтому пропишем перенаправление в settings LOGIN_REDIRECT_URL='/'
+    # ВСЁ, остальное все авторизация (с помощью username и password) и проверки происходят сами.
 
 
 class UserRegistrationView(CreateView):  # 7.6
@@ -44,7 +35,7 @@ class UserProfileView(UpdateView):  # 7.6
     model = User
     form_class = UserProfileForm  # какую форму использовать для профиля UserProfileForm (форму сами делали)
     template_name = 'users/profile.html'
-    # success_url = reverse_lazy('users:profile') берем готовую ф-ю get_success_url и переопределяем (ниже) тк у нас в urls.py приходит еще и id (profile/<int:pk>/)
+    # success_url = reverse_lazy('users:profile') вместо этого берем готовую ф-ю get_success_url и переопределяем (ниже) тк у нас в urls.py приходит еще и id (profile/<int:pk>/)
 
     def get_success_url(self) -> str:
         return reverse_lazy('users:profile', args=(self.object.id))
@@ -56,10 +47,28 @@ class UserProfileView(UpdateView):  # 7.6
         return context
 
 
+# def logout(request):  # 4.14  7.7 удалим тут, и добавим встроеный LogoutView.as_view в urls и в settings LOGOUT_REDIRECT_URL
+#     auth.logout(request)
+#     return HttpResponseRedirect(reverse('index'))
 
-def logout(request):  # 4.14
-    auth.logout(request)
-    return HttpResponseRedirect(reverse('index'))
+
+# 7.7  4.7 урок
+# def login(request):  # при первом входе на страницу /users/login/ срабатывает GET запрос и преходит ниже на else которая return пустую форму для заполнения 'users/login.html'
+#                      # при заполнении формы и нажатии Авторизоваться срабатывает if, т.к. это POST запрос
+#     if request.method == "POST":
+#         form = UserLoginForm(data=request.POST)  # заполняем класс UserLoginForm данными из POST запроса, request.POST-это словарь
+#         if form.is_valid():  # тут происходит AUDIT (контроль)
+#             username = request.POST['username']  # если данные прошли валидацию то из словаря request.POST достаем username
+#             password = request.POST['password']  # ... password
+#             user = auth.authenticate(username=username, password=password)  # после проверки,  тут происходит AUTHENTICATION (подтверждение личности) надо достать пользователя из БД и понять существует ли он
+#             if user:  # == True
+#                 auth.login(request, user)  # если нашли в БД тут происходит AUTHORISATION (Разрешение)
+#                 return HttpResponseRedirect(reverse('index'))  # перенаправление посе регистрации на  главную страниц
+#     else:
+#         form = UserLoginForm()
+#     context = {'form': form}
+#     return render(request, 'users/login.html', context)
+
 
 # 7.6 def registration(request):  # 4.11
 #     if request.method == "POST":
