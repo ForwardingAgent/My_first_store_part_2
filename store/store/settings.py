@@ -152,6 +152,8 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Users
 AUTH_USER_MODEL = 'users.User'  # 4.6
 LOGIN_URL = '/users/login/'  # 5.5
+LOGIN_REDIRECT_URL = '/'  # 7.7
+LOGOUT_REDIRECT_URL = '/'  # 7.7
 
 
 # Sending emails
