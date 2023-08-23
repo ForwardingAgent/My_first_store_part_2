@@ -3,6 +3,7 @@
 <!-- PROJECT LOGO -->
 <div align="center">
   <h1 align="center">Интернет магазин</h1>
+    <h3 align="center">(Part 2 - Extended and modified)</h3>
   <p align="center">
     Pet-project
       </p>
@@ -72,39 +73,54 @@
 
 Чтобы запустить локальную версию проекта необходимо скачать себе командой:
    ```sh
-$ git clone https://github.com/ForwardingAgent/My_first_store
+$ git clone https://github.com/ForwardingAgent/My_first_website.git
    ```
+Затем прописать в файле .env ваши данные для следующих переменных:
+
+для Django:
+- SECRET_KEY='<ваши данные>'
+
+для Postgres:
+- POSTGRES_DB=<ваши данные>
+- POSTGRES_USER=<ваши данные>
+- POSTGRES_PASSWORD=<ваши данные>
+  
+для pgadmin:
+- PGADMIN_DEFAULT_EMAIL=<ваши данные (email)>
+- PGADMIN_DEFAULT_PASSWORD=<ваши данные (password)>
 
 ### Установка и запуск
 
-
-1. Активируйте виртуальное окружение
+1. Для сборки всех сервисов запустите команду
    ```sh
-   source venv/bin/activate
+   docker-compose build
     ```
-3. Установите зависимости 
+2. Для запуска проекта запустите команду
    ```sh
-   pip install -r requirements.txt
-   ```
-4. Проведи миграции
+   docker-compose up
+    ```
+3. Откройте ваш бразуер по адресу
    ```sh
-   python manage.py makemigrations, python manage.py migrate
+   http://127.0.0.1:8000
    ```
-5. Запустите локальный сервер
+4. Доступ к БД Postgres через pgAdmin4 по адресу
    ```sh
-   python manage.py runserver
+   http://localhost:5050
    ```
+
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
 
-<!-- USAGE EXAMPLES -->
-## Описание и процесс работы
 
-В данном проекте реализована идея сайта с регистрацией:
+<!-- USAGE EXAMPLES -->
+## Описание и процесс работы 
+
+На данный момент в проекте подключена регистрация через соц.сеть GitHub:
 ![First_registration](readme-assets/First_registration.png)
 
+# UPD. 23.08.2023 Проект дополняется... :rocket: 
 
 И авторизацией пользоваетелей:
 ![Authorization](readme-assets/Authorization.png)
