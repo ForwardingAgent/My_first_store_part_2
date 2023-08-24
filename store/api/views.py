@@ -4,6 +4,6 @@ from products.models import Product
 from products.serializers import ProductSerializer
 
 
-class ProductListAPIView(ListAPIView):
+class ProductListAPIView(ListAPIView):  # 12.4 
     queryset = Product.objects.all()  # предоставляем все объекты (наши товары)
     serializer_class = ProductSerializer  # указываем с каким сериалайзром будем работать - ProductSerializer
