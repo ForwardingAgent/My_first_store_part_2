@@ -20,7 +20,7 @@ class Product(models.Model):
     description = models.TextField()
     price = models.DecimalField(max_digits=10, decimal_places=2)
     quantity = models.PositiveIntegerField(default=0)
-    image = models.ImageField(upload_to='products_images')  # загружай images в папку products_images (создаст автоматом)
+    image = models.ImageField(upload_to='products_images', blank=True)  # загружай images в папку products_images (создаст автоматом)
     category = models.ForeignKey(to=ProductCategory, on_delete=models.CASCADE)
     # связываем category (через класс ForeignKey) с другим классом ProductCategory
     # класс CASCADE - удаление категории и всех вложеных (категорий и продуктов)
