@@ -51,10 +51,13 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.github',  # 8.4 для авторизации ч/з github
+    
+    'rest_framework',  # 12.3
 
     'products',
     'users',
     'django.contrib.sites',  # 8.4  и в админке добавилась таблица сайты
+    'api',
     # 'django.contrib.postgres',  # это модуль Django, который предоставляет интеграцию с базой данных PostgreSQL
 ]
 
@@ -196,4 +199,12 @@ SOCIALACCOUNT_PROVIDERS = {
             # 'read:org',  не нужны
         ],
     }
+}
+
+
+# Django REST framework  12.5
+
+REST_FRAMEWORK = {
+    'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'PAGE_SIZE': 3,
 }

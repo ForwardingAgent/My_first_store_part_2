@@ -28,6 +28,9 @@ urlpatterns = [
     path('products/', include('products.urls', namespace='products')),  # урок 4.2 добавили include() https://metanit.com/python/django/3.6.php
     path('users/', include('users.urls', namespace='users')),  # урок 4.7 добавили path('users/'.....
     path('accounts/', include('allauth.urls')),  # 8.4
+
+    path('api/', include('api.urls', namespace='api')),  # урок 12.4
+
 ]
 
 if settings.DEBUG:  # DEBUG == True:
