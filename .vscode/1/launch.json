@@ -8,12 +8,11 @@
             "python": {
                 "pathMappings": [
                     {
-                        "localRoot": "${workspaceFolder}/store/manage.py",
-                        "remoteRoot": "/store"
+                        "localRoot": "${workspaceFolder}",
+                        "remoteRoot": "/app"
                     }
                 ],
-                "projectType": "django",
-
+                "projectType": "django"
             }
         }
     ]

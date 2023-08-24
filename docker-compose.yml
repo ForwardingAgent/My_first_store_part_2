@@ -15,6 +15,7 @@ services:
     # "мост" дает возм-ть сделать новый файл в докере и он появится сразу в локальном проекте(например docker-compose exec web-app ./manage.py startapp new app - команда которая в докер контейнере создает новое джанго приложение), и на оборот создав новый файл любой локально он сразу будет и в докере без ребилда.
       - ./store:/store
     environment: # переменные среды линукс
+      - PYTHONPATH=/store
       - DB_HOST=database  # ссылка на сервис database
       - POSTGRES_DB=postgres
       - POSTGRES_USER=postgres
