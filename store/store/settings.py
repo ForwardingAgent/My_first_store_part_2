@@ -51,8 +51,9 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.github',  # 8.4 для авторизации ч/з github
-    
+
     'rest_framework',  # 12.3
+    'rest_framework.authtoken', # 12.7
 
     'products',
     'users',
@@ -207,4 +208,14 @@ SOCIALACCOUNT_PROVIDERS = {
 REST_FRAMEWORK = {
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
     'PAGE_SIZE': 3,
+    # 'DEFAULT_AUTHENTICATION_CLASSES': [  базовые настройки, ставим свои ниже c TokenAuthentication
+    #     'rest_framework.authentication.BasicAuthentication',
+    #     'rest_framework.authentication.SessionAuthentication',
+    # ],
+    'DEFAULT_AUTHENTICATION_CLASSES': [  # 12.7
+         'rest_framework.authentication.TokenAuthentication'
+    ],
+    # 'DEFAULT_PERMISSION_CLASSES': [  # 12.7 можно здесь, но сдлали во api/views.py через permission_classes
+    #     'rest_framework.permissions.IsAuthenticated',
+    # ]
 }
