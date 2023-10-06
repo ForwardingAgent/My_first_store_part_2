@@ -31,7 +31,7 @@ services:
   database:
     image: postgres:15
     container_name: 'postgres_2'
-    restart: always
+    restart: unless-stopped  # не делать рестарт если я остановил, но если контейнер упал, то будет перезапущен. restart: always контейнер будет автоматически перезапускаться когда он остановился, не важно сам упал или я его остановил, перезагрузил.
     env_file:
       - .env
     environment:

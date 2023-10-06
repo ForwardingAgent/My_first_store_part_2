@@ -53,7 +53,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount.providers.github',  # 8.4 для авторизации ч/з github
 
     'rest_framework',  # 12.3
-    'rest_framework.authtoken', # 12.7
+    'rest_framework.authtoken',  # 12.7
 
     'products',
     'users',
@@ -70,6 +70,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'allauth.account.middleware.AccountMiddleware',  #, если запускается удалить
 ]
 
 ROOT_URLCONF = 'store.urls'

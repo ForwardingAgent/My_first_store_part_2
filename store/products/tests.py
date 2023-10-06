@@ -1,4 +1,3 @@
-#  нужно зайти в контейнер приложения и запуск тестов через './manage.py test products.tests.ProductsListViewTestCase.test_list'
 from http import HTTPStatus
 
 from django.test import TestCase
@@ -6,26 +5,28 @@ from django.urls import reverse
 
 from products.models import Product, ProductCategory
 
+#  !!!!!нужно зайти в контейнер приложения!!!!! и запуск тестов через './manage.py test products.tests.ProductsListViewTestCase.test_list'
 class IndexViewTestCase(TestCase):
 
     def test_view(self):  # все методы должны начинаться с test...
         path = reverse('index')  # присваиваем адрес http://127.0.0.1:8000/
-        response = self.client.get(path)
+        response = self.client.get(path)  # в TestCase встроен client(), client это класс который помогает обращаться к различным методам get, put...
+        # тут запрашиваем главную страницу через client.get(path)
         print(response)
-
-        self.assertEqual(response.status_code, HTTPStatus.OK)  # сравниваем объекты из response c тем что хотим получить
+        # сравниваем объекты из response c тем что хотим получить
+        self.assertEqual(response.status_code, HTTPStatus.OK)  # статусы сравнивать не с цифрой 200, 201.. а с HTTPStatus
         self.assertEqual(response.context_data['title'], 'Store')
-        self.assertTemplateUsed(response, 'products/index.html')
+        self.assertTemplateUsed(response, 'products/index.html')  # проверяем тот ли шаблон
 
 
 class ProductsListViewTestCase(TestCase):  # 9.4
-    fixtures = ['categories_1.json', 'goods_1.json']  # тк при тесте создается пустая БД нужно ее заполнить
+    fixtures = ['categories.json', 'goods.json']  # тк при тесте создается пустая БД нужно ее заполнить
 
-    def setUp(self):  # чтобы создать один раз self.products и ниже использовать в функциях
+    def setUp(self):  # setUp встроенная в TestCase функция, чтобы создавать переменные и дальше использовать в тестах. Создаем self.products и ниже использовать в функциях
         self.products = Product.objects.all()  # создаем переменную для того чтобы сравнить с ней
 
     def test_list(self):
-        path = reverse('products:index')  # присваиваем адрес главной старницы
+        path = reverse('products:index')  # присваиваем адрес главной страницы
         response = self.client.get(path)
 
         # products = Product.objects.all()  # создаем переменную для того чтобы сравнить с ней | убираем тк она создана в def setUp
@@ -33,7 +34,10 @@ class ProductsListViewTestCase(TestCase):  # 9.4
         # self.assertEqual(response.context_data['title'], 'Store - Каталог')
         # self.assertTemplateUsed(response, 'products/products.html')
         self._common_tests(response)
-        self.assertEqual(list(response.context_data['object_list']), list(self.products[:3]))  # два одинаковых qeryset не равны м/у собой делаем их списками и сравниваем
+        self.assertEqual(
+            list(response.context_data['object_list']), 
+            list(self.products[:3])
+        )  # два одинаковых с виду quryset не равны м/у собой (т.к. сделаны в разное время), делаем их списками и сравниваем
 
     def test_list_with_category(self):
         category = ProductCategory.objects.first()
@@ -48,9 +52,9 @@ class ProductsListViewTestCase(TestCase):  # 9.4
         self.assertEqual(
             list(response.context_data['object_list']),
             list(self.products.filter(category_id=category.id))
-        )  # два одинаковых qeryset не равны м/у собой делаем их list и сравниваем
+        )  # два одинаковых с виду quryset не равны м/у собой (т.к. сделаны в разное время), делаем их list и сравниваем
 
-    def _common_tests(self, response):  # DRY убрали блоки в одну ф-ю
+    def _common_tests(self, response):  # DRY, убрали блоки из test_list и test_list_with_category в одну ф-ю _common_tests
         self.assertEqual(response.status_code, HTTPStatus.OK)  # сравниваем объекты из response c тем что хотим получить
         self.assertEqual(response.context_data['title'], 'Store - Каталог')
         self.assertTemplateUsed(response, 'products/products.html')
