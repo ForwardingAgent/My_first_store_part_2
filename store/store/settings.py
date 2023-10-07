@@ -51,6 +51,7 @@ INSTALLED_APPS = [
     'allauth.account',
     'allauth.socialaccount',
     'allauth.socialaccount.providers.github',  # 8.4 для авторизации ч/з github
+    'debug_toolbar',  # 9.7
 
     'rest_framework',  # 12.3
     'rest_framework.authtoken',  # 12.7
@@ -64,13 +65,14 @@ INSTALLED_APPS = [
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
+    'debug_toolbar.middleware.DebugToolbarMiddleware',  # 9.7
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'allauth.account.middleware.AccountMiddleware',  #, если запускается удалить
+    'allauth.account.middleware.AccountMiddleware',  # если запускается удалить
 ]
 
 ROOT_URLCONF = 'store.urls'
@@ -103,6 +105,16 @@ WSGI_APPLICATION = 'store.wsgi.application'
 #         'NAME': BASE_DIR / 'db.sqlite3',
 #     }
 # }
+
+INTERNAL_IPS = [  # 9.7 для Debug Toolbar
+    '127.0.0.1',
+    'localhost',
+    '0.0.0.0',
+]
+
+DEBUG_TOOLBAR_CONFIG = {  # 9.7 для Debug Toolbar
+    'SHOW_TOOLBAR_CALLBACK': lambda request: True
+}
 
 DATABASES = {
     'default': {

@@ -37,5 +37,6 @@ urlpatterns = [
 ]
 
 if settings.DEBUG:  # DEBUG == True:
+    urlpatterns.append(path("__debug__/", include("debug_toolbar.urls")))
     urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
     # навести на static и подсказка покажет: какие импорты добавить и что передать в ф-ию static
