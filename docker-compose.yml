@@ -61,6 +61,44 @@ services:
     ports:
       - 5050:80
 
+  redis:  # У Celery есть 2 варианта брокера Redis(бд) и RabbitMQ(менеджер очередей) вторая мощнее: можно прописывать приоритеты для tasks, но сложнее установить
+    image: redis:7.2
+    hostname: redis
+    container_name: redis
+
+  worker:
+    container_name: celery
+    restart: unless-stopped
+    build: 
+      context: .
+    hostname: worker  # по какому hostname в докере будем определять этот сервис
+    entrypoint: celery  # команда с которой будем вызвать другие команды к этому сервису
+    command: -A store worker --loglevel=info  # '-A core' это '--app=core' ?? | loglevel уровень логирования для данного workerа, тк тестовый то логируем все info, на prodaction loglevel=varning или =error
+    #  celery.py - файл | app - переменная в файле celery.py | worker - создаем worker
+    volumes:
+      - ./store:/store
+    links:  # чтобы celery знал с какой бд соединяться
+      - redis
+    depends_on:
+      - redis
+      - database
+      - store-app
+
+  flower:
+    build:
+      context: .
+    hostname: flower
+    entrypoint: celery
+    command: -A store flower 
+    volumes:
+      - ./store:/store
+    links:
+      - redis
+    depends_on:
+      - redis
+    ports:
+      - '5555:5555'
+
 volumes:
   my_db:
     

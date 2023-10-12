@@ -8,3 +8,5 @@ Pillow
 django-allauth
 djangorestframework
 django-debug-toolbar
+celery[redis]
+flower

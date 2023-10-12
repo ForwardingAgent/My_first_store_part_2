@@ -46,6 +46,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.sites',  # 8.4 и в админке добавилась таблица сайты
 
     'allauth',  # 8.4
     'allauth.account',
@@ -58,7 +59,6 @@ INSTALLED_APPS = [
 
     'products',
     'users',
-    'django.contrib.sites',  # 8.4  и в админке добавилась таблица сайты
     'api',
     # 'django.contrib.postgres',  # это модуль Django, который предоставляет интеграцию с базой данных PostgreSQL
 ]
@@ -183,14 +183,15 @@ LOGOUT_REDIRECT_URL = '/'  # 7.7
 
 
 # Sending emails
-
-EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"  # для работы в консоли
-# EMAIL_HOST = 'smtp.gmail.com'
-# EMAIL_PORT = 587
-# EMAIL_HOST_USER = 'otheroffermailbox@gmail.com'
-# EMAIL_HOST_PASSWORD = 'kikjlkzidvfbqqrk'
-# EMAIL_USE_TLS = True
-# EMAIL_USE_SSL = False
+# для работы в консоли:
+# EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+# для работы с почтой:
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_PORT = 587
+EMAIL_HOST_USER = 'otheroffermailbox@gmail.com'
+EMAIL_HOST_PASSWORD = 'kikjlkzidvfbqqrk'
+EMAIL_USE_TLS = True
+EMAIL_USE_SSL = False
 
 
 # OAuth регистрация ч/з соцсети
@@ -232,3 +233,16 @@ REST_FRAMEWORK = {
     #     'rest_framework.permissions.IsAuthenticated',
     # ]
 }
+
+# CELERY
+
+# REDIS_HOST = '0.0.0.0'
+# REDIS_PORT = '6379'
+CELERY_BROKER_URL = 'redis://redis:6379/0'  # указываем django какой url будет у celery брокера(redis) |  # вариант записи CELERY_RESULT_BACKEND = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/0'
+# CELERY_BROKER_URL = 'redis://127.0.0.1:6379' если не в докере
+# redis:// - протокол по которому надо подключиться, 
+# redis: - hostname который прописан в docker-compose, далее порт
+# в конце можно добавить /0 или /1 с какой бд (их несколько) в redis будем работать
+CELERY_RESULT_BACKEND = 'redis://redis:6379/0'  # вариант записи CELERY_RESULT_BACKEND = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/0'
+# CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379' если не в докере
+
