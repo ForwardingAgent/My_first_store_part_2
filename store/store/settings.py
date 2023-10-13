@@ -248,3 +248,7 @@ CELERY_BROKER_URL = 'redis://redis:6379/0'  # указываем django како
 CELERY_RESULT_BACKEND = 'redis://redis:6379/0'  # вариант записи CELERY_RESULT_BACKEND = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/0'
 # CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379' если не в докере
 
+# STRIPE
+
+STRIPE_PUBLIC_KEY = str(os.environ.get('STRIPE_PUBLIC_KEY'))
+STRIPE_SECRET_KEY = str(os.environ.get('STRIPE_SECRET_KEY'))

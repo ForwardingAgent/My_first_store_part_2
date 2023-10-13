@@ -10,3 +10,4 @@ djangorestframework
 django-debug-toolbar
 celery[redis]
 flower
+stripe
