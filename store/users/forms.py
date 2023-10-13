@@ -7,7 +7,7 @@ from django.contrib.auth.forms import AuthenticationForm, UserCreationForm, User
 from django.utils.timezone import now
 
 from users.models import User, EmailVerification
-from users.tasks import send_verification_email
+from users.tasks import send_email_verification
 
 
 class UserLoginForm(AuthenticationForm):  # 4.8, 4.10  создаем красивые формы для регистрации (указываем где в login.html брать логин и пароль)
@@ -41,11 +41,11 @@ class UserRegistrationForm(UserCreationForm):  # 4.11
 
     def save(self, commit: bool = True) -> Any:  # 7.10 это уже существующий метод мы дополняем его через super() 
         user = super(UserRegistrationForm, self).save(commit=True)  # save возвращает объект user и мы с ним будем работать ниже
-        send_verification_email.delay(user.id)  # вызов не через send_verification_email(), а чз delay(user.id)
+        send_email_verification.delay(user.id)  # вызов не чз send_verification_email(), а чз .delay(user.id)
         # перенес в celery 9.10
         # expiration = now() + timedelta(hours=48)  # сколько действует ссылка 
         # record = EmailVerification.objects.create(code=uuid.uuid4(), user=user, expiration=expiration)  # uuid создает каждый раз уникальный код
-        # record.send_verification_email()  
+        # record.send_verification_email()
         return user  # возвращаем обновленного user
 
 

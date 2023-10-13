@@ -189,7 +189,7 @@ LOGOUT_REDIRECT_URL = '/'  # 7.7
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_HOST_USER = 'otheroffermailbox@gmail.com'
-EMAIL_HOST_PASSWORD = 'kikjlkzidvfbqqrk'
+EMAIL_HOST_PASSWORD = 'sjihsrdokgjphtdl'
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
 
