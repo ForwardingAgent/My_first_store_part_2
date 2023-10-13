@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'django.contrib.sites',  # 8.4 и в админке добавилась таблица сайты
+    'django.contrib.humanize',  # 10.4 улучшает показ цифр
 
     'allauth',  # 8.4
     'allauth.account',
@@ -60,6 +61,7 @@ INSTALLED_APPS = [
     'products',
     'users',
     'api',
+    'orders',
     # 'django.contrib.postgres',  # это модуль Django, который предоставляет интеграцию с базой данных PostgreSQL
 ]
 
@@ -186,10 +188,10 @@ LOGOUT_REDIRECT_URL = '/'  # 7.7
 # для работы в консоли:
 # EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 # для работы с почтой:
-EMAIL_HOST = 'smtp.gmail.com'
-EMAIL_PORT = 587
-EMAIL_HOST_USER = 'otheroffermailbox@gmail.com'
-EMAIL_HOST_PASSWORD = 'sjihsrdokgjphtdl'
+EMAIL_HOST = str(os.environ.get('EMAIL_HOST'))
+EMAIL_PORT = int(os.environ.get('EMAIL_PORT'))
+EMAIL_HOST_USER = str(os.environ.get('EMAIL_HOST_USER'))
+EMAIL_HOST_PASSWORD = str(os.environ.get('EMAIL_HOST_PASSWORD'))
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
 

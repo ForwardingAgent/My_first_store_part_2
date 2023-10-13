@@ -1,6 +1,5 @@
-{% extends 'products/base.html' %}  <!--2.6 расширяем base-->
-{% load static %}
-<!--  {% load static %} загружает путь до папки static, путь BASE_DIR / 'static' из settings -->
+{% extends 'products/base.html' %}
+{% load static cache humanize %}
 
 {% block css %}
     <link href="{% static 'vendor/css/products.css' %}" rel="stylesheet">
@@ -66,7 +65,7 @@
                                     <h4 class="card-title">
                                         <a href="#">{{ product.name }}</a>
                                     </h4>
-                                    <h5>{{ product.price }} руб.</h5>
+                                    <h5>{{ product.price | intcomma }} руб.</h5>
                                     <p class="card-text">{{ product.description }}</p>
                                 </div>
                                 <div class="card-footer text-center">  <!-- 5.3 -->

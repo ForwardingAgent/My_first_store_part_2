@@ -30,10 +30,10 @@ urlpatterns = [
     path('products/', include('products.urls', namespace='products')),  # 4.2 добавили include() https://metanit.com/python/django/3.6.php
     path('users/', include('users.urls', namespace='users')),  # урок 4.7 добавили path('users/'.....
     path('accounts/', include('allauth.urls')),  # 8.4 регистрация чз соцсети (github)
+    path('orders/', include('orders.urls', namespace='orders')),  # 10.2
 
     path('api/', include('api.urls', namespace='api')),  # 12.4
     path('api-token-auth/', views.obtain_auth_token),  # 12.7
-
 ]
 
 if settings.DEBUG:  # DEBUG == True:
