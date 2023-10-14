@@ -35,7 +35,7 @@ DEBUG = int(os.environ.get("DEBUG", default=0))
 # ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS")
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0']
 
-DOMAIN_NAME = 'http://127.0.0.1:8000'  # 7.11
+DOMAIN_NAME = 'http://127.0.0.1:8000'  # 7.11, в 10.5 для оплаты
 
 # Application definition
 
@@ -188,10 +188,10 @@ LOGOUT_REDIRECT_URL = '/'  # 7.7
 # для работы в консоли:
 # EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
 # для работы с почтой:
-EMAIL_HOST = str(os.environ.get('EMAIL_HOST'))
-EMAIL_PORT = int(os.environ.get('EMAIL_PORT'))
-EMAIL_HOST_USER = str(os.environ.get('EMAIL_HOST_USER'))
-EMAIL_HOST_PASSWORD = str(os.environ.get('EMAIL_HOST_PASSWORD'))
+EMAIL_HOST = os.environ.get("EMAIL_HOST")
+EMAIL_PORT = os.environ.get("EMAIL_PORT")
+EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
+EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
 EMAIL_USE_TLS = True
 EMAIL_USE_SSL = False
 
@@ -250,5 +250,6 @@ CELERY_RESULT_BACKEND = 'redis://redis:6379/0'  # вариант записи CE
 
 # STRIPE
 
-STRIPE_PUBLIC_KEY = str(os.environ.get('STRIPE_PUBLIC_KEY'))
-STRIPE_SECRET_KEY = str(os.environ.get('STRIPE_SECRET_KEY'))
+STRIPE_PUBLIC_KEY = os.environ.get("STRIPE_PUBLIC_KEY")
+STRIPE_SECRET_KEY = os.environ.get("STRIPE_SECRET_KEY")
+STRIPE_WEBHOOK_SECRET = os.environ.get("STRIPE_WEBHOOK_SECRET")
