@@ -25,12 +25,9 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = str(os.environ.get("SECRET_KEY"))
-# SECRET_KEY = 'django-insecure-rp^^7340e6$7@lir*e3wt@2s$vc3jdf-y^lbr*=hgvkhnio@*_'
-
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = int(os.environ.get("DEBUG", default=0))
-# DEBUG = 1
 
 # ALLOWED_HOSTS = os.environ.get("DJANGO_ALLOWED_HOSTS")
 ALLOWED_HOSTS = ['localhost', '127.0.0.1', '0.0.0.0']
@@ -54,6 +51,7 @@ INSTALLED_APPS = [
     'allauth.socialaccount',
     'allauth.socialaccount.providers.github',  # 8.4 для авторизации ч/з github
     'debug_toolbar',  # 9.7
+    'django_extensions',  # 11.3 для shell-plus
 
     'rest_framework',  # 12.3
     'rest_framework.authtoken',  # 12.7
@@ -74,7 +72,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'allauth.account.middleware.AccountMiddleware',  # если запускается удалить
+    # 'allauth.account.middleware.AccountMiddleware',  # если запускается удалить
 ]
 
 ROOT_URLCONF = 'store.urls'
@@ -185,15 +183,18 @@ LOGOUT_REDIRECT_URL = '/'  # 7.7
 
 
 # Sending emails
-# для работы в консоли:
-# EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
-# для работы с почтой:
-EMAIL_HOST = os.environ.get("EMAIL_HOST")
-EMAIL_PORT = os.environ.get("EMAIL_PORT")
-EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
-EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
-EMAIL_USE_TLS = True
-EMAIL_USE_SSL = False
+
+if DEBUG:
+    # для работы в консоли:
+    EMAIL_BACKEND = "django.core.mail.backends.console.EmailBackend"
+else:
+    # для работы с почтой:
+    EMAIL_HOST = os.environ.get("EMAIL_HOST")
+    EMAIL_PORT = os.environ.get("EMAIL_PORT")
+    EMAIL_HOST_USER = os.environ.get("EMAIL_HOST_USER")
+    EMAIL_HOST_PASSWORD = os.environ.get("EMAIL_HOST_PASSWORD")
+    EMAIL_USE_TLS = True
+    EMAIL_USE_SSL = False
 
 
 # OAuth регистрация ч/з соцсети
@@ -236,17 +237,24 @@ REST_FRAMEWORK = {
     # ]
 }
 
+# Caches for Redis
+
+#CACHES = {}
+
 # CELERY
 
-# REDIS_HOST = '0.0.0.0'
-# REDIS_PORT = '6379'
-CELERY_BROKER_URL = 'redis://redis:6379/0'  # указываем django какой url будет у celery брокера(redis) |  # вариант записи CELERY_RESULT_BACKEND = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/0'
 # CELERY_BROKER_URL = 'redis://127.0.0.1:6379' если не в докере
-# redis:// - протокол по которому надо подключиться, 
-# redis: - hostname который прописан в docker-compose, далее порт
-# в конце можно добавить /0 или /1 с какой бд (их несколько) в redis будем работать
-CELERY_RESULT_BACKEND = 'redis://redis:6379/0'  # вариант записи CELERY_RESULT_BACKEND = 'redis://' + REDIS_HOST + ':' + REDIS_PORT + '/0'
 # CELERY_RESULT_BACKEND = 'redis://127.0.0.1:6379' если не в докере
+# вариант записи:
+# REDIS_HOST = '127.0.0.1'
+# REDIS_PORT = '6379'
+# CELERY_BROKER_URL = f'redis://{REDIS_HOST}:{REDIS_PORT}/0'
+# CELERY_RESULT_BACKEND = f'redis://{REDIS_HOST}:{REDIS_PORT}/0'
+CELERY_BROKER_URL = 'redis://redis:6379/0'  # указываем django какой url будет у celery брокера(redis)
+# redis:// - протокол по которому надо подключиться, 
+# redis: - hostname который прописан в docker-compose, 6379 порт
+# в конце можно добавить /0, /1... с какой бд (их несколько) в redis будем работать
+CELERY_RESULT_BACKEND = 'redis://redis:6379/0'
 
 # STRIPE
 

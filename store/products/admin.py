@@ -1,8 +1,6 @@
 from django.contrib import admin
-# Register your models here.
 
 from products.models import ProductCategory, Product, Basket
-
 
 # admin.site.register(Product)
 admin.site.register(ProductCategory)
@@ -11,7 +9,7 @@ admin.site.register(ProductCategory)
 @admin.register(Product)  # 6.4 нужно передать модель с которой будем работать (Product)
 class ProductAdmin(admin.ModelAdmin):
     list_display = ('name', 'price', 'quantity', 'category')  # отвечает за то как я хочу видеть все продукты на гл.странице, сейчас строка из products/models.py def __str__(self)...
-    fields = ('name', 'description', 'price', 'quantity', 'image', 'category')  # порядок можно менять и поменяются в admin'ке | кортеж в кортеже тогда два значения на одной линии
+    fields = ('name', 'description', ('price', 'quantity'), 'stripe_product_price_id', 'image', 'category')  # порядок можно менять и поменяются в admin'ке | кортеж в кортеже тогда два значения на одной линии
     readonly_fields = ('description',)  # делает поле неизменяемым
     search_fields = ('name',)  # добавляет поле поиска
     ordering = ('name',)  # отображение списка в алфавитном порядке | ('-name') в обратном алфав порядке
