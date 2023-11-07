@@ -9,7 +9,7 @@ from products.models import Basket
 
 # 4.7 урок
 def login(request):  # при первом входе на страницу /users/login/ срабатывает GET запрос и преходит ниже на else которая return пустую форму для заполнения 'users/login.html'
-                     # при заполнении формы и нажатии Авторизоваться срабатывает if, т.к. это POST запрос
+                    # при заполнении формы и нажатии Авторизоваться срабатывает if, т.к. это POST запрос
     if request.method == "POST":
         form = UserLoginForm(data=request.POST)  # заполняем класс UserLoginForm данными из POST запроса, request.POST-это словарь
         if form.is_valid():  # тут происходит AUDIT (контроль)
@@ -30,7 +30,7 @@ def registration(request):  # 4.11
         form = UserRegistrationForm(data=request.POST)
         if form.is_valid():
             form.save()  # пишем save для формы а он уже вызовет save для объектов и сохранит все в БД (first_name.save(), last_name.save() и тд)
-            messages.success(request, 'Поздравляем, вы успешно зарегистрировались!')  # 4.13 
+            messages.success(request, 'Поздравляем, вы успешно зарегистрировались!')  # 4.13
             return HttpResponseRedirect(reverse('users:login'))  # перенаправляем на старницу авторизации
     else:
         form = UserRegistrationForm()

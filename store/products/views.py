@@ -48,7 +48,7 @@ class ProductListView(TitleMixin, ListView):  # 7.4 ListView класс отве
 # 7.5 для basket_add и basket_remove нет смысла делать через классы т.к. код практически копируется
 # class BasketCreateView(CreateView):
 #     model = Basket  # от какой модели наследуемся
-# 
+
 #     def post(self, request: HttpRequest, *args: str, **kwargs: Any) -> HttpResponse:
 #       product = Product.objects.get(id=self.kwargs.get('product_id'))
 #       basket = Basket.objects.filter(user=request.user, product=product)
@@ -62,7 +62,7 @@ def basket_add(request, product_id):
     product = Product.objects.get(id=product_id)
     basket = Basket.objects.filter(user=request.user, product=product)
 
-    if not basket.exists():  # если корзина пуста то для user, устанавливаем для product кол-во = 1 
+    if not basket.exists():  # если корзина пуста то для user, устанавливаем для product кол-во = 1
         Basket.objects.create(user=request.user, product=product, quantity=1)
     else:
         basket = basket.first()  # иначе товар в корзине увеличиваем на 1 и сохраняем

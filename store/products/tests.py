@@ -6,6 +6,8 @@ from django.urls import reverse
 from products.models import Product, ProductCategory
 
 #  !!!!!нужно зайти в контейнер приложения!!!!! и запуск тестов через './manage.py test products.tests.ProductsListViewTestCase.test_list'
+
+
 class IndexViewTestCase(TestCase):
 
     def test_view(self):  # все методы должны начинаться с test...
@@ -35,7 +37,7 @@ class ProductsListViewTestCase(TestCase):  # 9.4
         # self.assertTemplateUsed(response, 'products/products.html')
         self._common_tests(response)
         self.assertEqual(
-            list(response.context_data['object_list']), 
+            list(response.context_data['object_list']),
             list(self.products[:3])
         )  # два одинаковых с виду quryset не равны м/у собой (т.к. сделаны в разное время), делаем их списками и сравниваем
 

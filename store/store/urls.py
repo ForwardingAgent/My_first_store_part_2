@@ -1,7 +1,7 @@
 from django.contrib import admin
 from django.urls import path, include
 from django.conf.urls.static import static
-from django.conf import settings  # если "from store import settings" это аналогичный способ, но не все настройки подтягиваются 
+from django.conf import settings  # если "from store import settings" это аналогичный способ, но не все настройки подтягиваются
 
 # from products.views import index
 from products.views import IndexView

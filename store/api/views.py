@@ -19,6 +19,6 @@ class ProductModelViewSet(ModelViewSet):  # 12.6 ModelViewSet - имеет кр�
 
 
 # 12.6 убрали тк используем ModelViewSet
-# class ProductListAPIView(ListAPIView):  # 12.4 
+# class ProductListAPIView(ListAPIView):  # 12.4
 #     queryset = Product.objects.all()  # предоставляем все объекты (наши товары)
 #     serializer_class = ProductSerializer  # указываем с каким сериалайзром будем работать - ProductSerializer

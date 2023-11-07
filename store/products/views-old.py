@@ -23,7 +23,7 @@ def products(request, category_id=None, page_number=1):  # приходит requ
     paginator = Paginator(products, per_page)
     products_paginator = paginator.page(page_number)  # обращаемся к переменной paginator и через page передаем номер страницы товары которой надо отобразить, изначально 1 и первые 3 товара, стр.2-след. 3 товара
     #  products_paginator - тот же products только расширен методами для работы с Paginator()
-    
+
     context = {
         'title': 'Store - Каталог',
         # 'products': Product.objects.all(), 6.2 изменяем т.к. products будет меняться из условия выбора выше в зависимости от category_id
@@ -39,7 +39,7 @@ def basket_add(request, product_id):
     product = Product.objects.get(id=product_id)
     basket = Basket.objects.filter(user=request.user, product=product)
 
-    if not basket.exists():  # если корзина пуста то для user, устанавливаем для product кол-во = 1 
+    if not basket.exists():  # если корзина пуста то для user, устанавливаем для product кол-во = 1
         Basket.objects.create(user=request.user, product=product, quantity=1)
     else:
         basket = basket.first()  # иначе товар в корзине увеличиваем на 1 и сохраняем

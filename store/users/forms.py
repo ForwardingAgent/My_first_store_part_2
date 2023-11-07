@@ -39,11 +39,11 @@ class UserRegistrationForm(UserCreationForm):  # 4.11
         model = User
         fields = ('first_name', 'last_name', 'username', 'email', 'password1', 'password2')
 
-    def save(self, commit: bool = True) -> Any:  # 7.10 это уже существующий метод мы дополняем его через super() 
+    def save(self, commit: bool = True) -> Any:  # 7.10 это уже существующий метод мы дополняем его через super()
         user = super(UserRegistrationForm, self).save(commit=True)  # save возвращает объект user и мы с ним будем работать ниже
         send_email_verification.delay(user.id)  # вызов не чз send_verification_email(), а чз .delay(user.id)
         # перенес в celery 9.10
-        # expiration = now() + timedelta(hours=48)  # сколько действует ссылка 
+        # expiration = now() + timedelta(hours=48)  # сколько действует ссылка
         # record = EmailVerification.objects.create(code=uuid.uuid4(), user=user, expiration=expiration)  # uuid создает каждый раз уникальный код
         # record.send_verification_email()
         return user  # возвращаем обновленного user

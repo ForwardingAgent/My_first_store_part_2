@@ -14,7 +14,7 @@ services:
     # Путь внутри контейнера (после двоеточия) обязательно должен быть абсолютным
     # "мост" дает возм-ть сделать новый файл в докере и он появится сразу в локальном проекте(например docker-compose exec web-app ./manage.py startapp new app - команда которая в докер контейнере создает новое джанго приложение), и на оборот создав новый файл любой локально он сразу будет и в докере без ребилда.
       - ./store:/store
-    environment: # переменные среды линукс
+    environment:
       - PYTHONPATH=/store
       - DB_HOST=database  # ссылка на сервис database
       - POSTGRES_DB=postgres
@@ -69,6 +69,8 @@ services:
   worker:
     container_name: celery
     restart: unless-stopped
+    env_file:  # добавил тк была ошибка после установки environ и переменных в (.env) | ошибка: django.core.exceptions.ImproperlyConfigured: Set the SECRET_KEY environment variable
+      - .env
     build: 
       context: .
     hostname: worker  # по какому hostname в докере будем определять этот сервис
@@ -88,6 +90,8 @@ services:
     build:
       context: .
     hostname: flower
+    env_file:  # добавил тк была ошибка после установки environ и переменных в (.env) | ошибка: django.core.exceptions.ImproperlyConfigured: Set the SECRET_KEY environment variable
+      - .env
     entrypoint: celery
     command: -A store flower 
     volumes:

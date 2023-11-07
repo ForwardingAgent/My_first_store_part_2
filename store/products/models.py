@@ -42,7 +42,7 @@ class Product(models.Model):
         return f'Продукт: {self.name} | Категория: {self.category.name}'
 
     # 10.7 ОСНОВНОЙ МЕТОД Models это save, СРАБАТЫВАЕТ ВСЕГДА для сохранения объектов в БД, тут его переопределяем
-    # если у нового продукта нет stripe_product_price (id для stripe) то отправляем его в create_stripe_product_price() и создаем 
+    # если у нового продукта нет stripe_product_price (id для stripe) то отправляем его в create_stripe_product_price() и создаем
     def save(self, force_insert=False, force_update=False, using=None, update_fields=None) -> None:
         if not self.stripe_product_price_id:
             stripe_product_price = self.create_stripe_product_price()
