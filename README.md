@@ -49,7 +49,8 @@
 - подключил платежную систему Stripe.
 
 
-![Main_page](readme-assets/Main_page_.png)
+<!-- ![Main_page](readme-assets/Main_page_.png) -->>
+<img src="readme-assets/Main_page_.png" width="600">
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -59,8 +60,8 @@
 
 * [![Python][Python.py]][Python-url]
 * [![Django][Django.dj]][Django-url]
-* [![Postgres][Postgres.psg]][Postgres-url]
 * [![Docker][Docker.dkr]][Docker-url]
+* [![Postgres][Postgres.psg]][Postgres-url]
 * [![Redis][Redis.rds]][Redis-url]
 * [![Celery][Celery.clr]][Celery-url]
 * [![VSCode][VSCode.vsc]][VSCode-url]
@@ -125,26 +126,31 @@ $ git clone https://github.com/ForwardingAgent/Online_store
 ## Описание и процесс работы 
 
 На данный момент весь проект запущен в контейнерах:
-![All_contaners](readme-assets/All_contaners.png)
+<!-- ![All_contaners](readme-assets/All_contaners.png) -->
+<img src="readme-assets/All_contaners.png" width="600">
 
 
 Доработана корзина заказов:
-![Basket_order](readme-assets/Basket_order.png)
+<!--  ![Basket_order](readme-assets/Basket_order.png) -->
+<img src="readme-assets/Basket_order.png" width="600">
 
 
 Есть возможность посмотерть все заказы, их статус и каждый заказ конкретно:
-![All_Orders](readme-assets/All_Orders.png)
-![One_Order](readme-assets/One_Order.png)
+<!-- ![All_Orders](readme-assets/All_Orders.png) -->
+<img src="readme-assets/All_Orders.png" width="600">
+<!-- ![One_Order](readme-assets/One_Order.png) -->
+<img src="readme-assets/One_Order.png" width="600">
 
 
 Подключена платежная система Stripe:
-![Card_Payment](readme-assets/Card_Payment.png)
+<!--![Card_Payment](readme-assets/Card_Payment.png) -->
+<img src="readme-assets/Card_Payment.png" width="600">
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 
-# UPD. 23.08.2023 Проект дополняется... :rocket: 
+# UPD. 07.11.2023 Проект дополняется... :rocket: 
 
 
 <!-- CONTRIBUTING -->
