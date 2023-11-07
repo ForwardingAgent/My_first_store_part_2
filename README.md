@@ -38,14 +38,18 @@
 ## О проекте
 
 
-Продолжение второго проекта Интернет-магазина, этот вариант будет в процессе активного развития и дополнения.
-Он так же полностью запускается с БД  Postgres в Docker'е и здесь будет практические решения по некоторым новым пунктам, а именно:
-- тестирование, кэширование (используя Redis) и отложеные задачи с помощью Celery;
+Продолжение проекта Интернет-магазина, этот вариант будет в процессе активного развития и дополнения.
+Он так же полностью запускается с БД Postgres в Docker'е,
+плюс добавлены Redis и Celery, а так же Flower, чтобы отслеживать воркеры Celery и прогресс по таскам)
+В проекте реализовал:
+- тестирование, кэширование (используя Redis);
+- научился работать с отложеными задачами с Celery (отправка письма с подтверждение после регистрации);
 - Django REST framework, REST API и создание API для проекта;
-- авторизация через социальные сети и подключение платежных систем.
+- авторизацию через социальные сети, а именно Github;
+- подключил платежную систему Stripe.
 
 
-![Main_page](readme-assets/Main_page.png)
+![Main_page](readme-assets/Main_page_.png)
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -60,8 +64,8 @@
 * [![Redis][Redis.rds]][Redis-url]
 * [![Celery][Celery.clr]][Celery-url]
 * [![VSCode][VSCode.vsc]][VSCode-url]
-* [![GitHub][GitHub.gth]][GitHub-url]
 * [![YouTube][YouTube.yt]][YouTube-url]
+* [![GitHub][GitHub.gth]][GitHub-url]
 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
@@ -73,17 +77,21 @@
 
 Чтобы запустить локальную версию проекта необходимо скачать себе командой:
    ```sh
-$ git clone https://github.com/ForwardingAgent/My_first_website.git
+$ git clone https://github.com/ForwardingAgent/Online_store
    ```
 Затем прописать в файле .env ваши данные для следующих переменных:
 
 для Django:
 - SECRET_KEY='<ваши данные>'
+- DEBUG = '<ваши данные>'
 
 для Postgres:
+- DB_HOST=<ваши данные>
+- DB_PORT=<ваши данные>
 - POSTGRES_DB=<ваши данные>
 - POSTGRES_USER=<ваши данные>
 - POSTGRES_PASSWORD=<ваши данные>
+- PGDATA=<ваши данные>
   
 для pgadmin:
 - PGADMIN_DEFAULT_EMAIL=<ваши данные (email)>
@@ -113,29 +121,30 @@ $ git clone https://github.com/ForwardingAgent/My_first_website.git
 
 
 
-
 <!-- USAGE EXAMPLES -->
 ## Описание и процесс работы 
 
-На данный момент в проекте подключена регистрация через соц.сеть GitHub:
-![First_registration](readme-assets/First_registration.png)
-
-# UPD. 23.08.2023 Проект дополняется... :rocket: 
-
-И авторизацией пользоваетелей:
-![Authorization](readme-assets/Authorization.png)
+На данный момент весь проект запущен в контейнерах:
+![All_contaners](readme-assets/All_contaners.png)
 
 
-С возможностью добавления статей и админ-панелью:
-![Django_admin](readme-assets/Django_admin.png)
+Доработана корзина заказов:
+![Basket_order](readme-assets/Basket_order.png)
 
 
-Статьи разбиты по категориям в сайдбаре слева, а для быстрого перемещения по большому количеству статей применена постраничная пагинация.
+Есть возможность посмотерть все заказы, их статус и каждый заказ конкретно:
+![All_Orders](readme-assets/All_Orders.png)
+![One_Order](readme-assets/One_Order.png)
 
 
-![Pagination](readme-assets/Pagination.gif)
+Подключена платежная система Stripe:
+![Card_Payment](readme-assets/Card_Payment.png)
+
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+
+# UPD. 23.08.2023 Проект дополняется... :rocket: 
 
 
 <!-- CONTRIBUTING -->
