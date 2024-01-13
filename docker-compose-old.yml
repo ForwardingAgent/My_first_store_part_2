@@ -1,16 +1,15 @@
 version: "3"
 
 services:
-  store-app:
-    image: nikolaipdk/store-app:v2
-    container_name: 'Store'
-    restart: always
-    #build:
-    #  context: .
+  store-app: 
+    container_name: 'Online-store'
+    build:
+      context: .
+    platform: linux/amd64  # тк Mac создает image в другой системе
     env_file:
       - .env
     ports:
-      - "80:8000"
+      - "8000:8000"
     volumes:
     # Текущая директория пробрасывается в директорию /store внутри контейнера
     # Путь внутри контейнера (после двоеточия) обязательно должен быть абсолютным
@@ -24,18 +23,15 @@ services:
       - POSTGRES_PASSWORD=postgres
     command: >
       sh -c "python manage.py runserver 0.0.0.0:8000"
-           #  python3 manage.py makemigrations &&
-           #  python3 manage.py migrate --noinput &&
-           #  python manage.py syncdb --noinput &&
     # command - команда, которая будет выполнена после старта сервиса | 'sh -c' значит что должна использовать shell (sh) linux для запуска команды (-с)
     depends_on:
       database:
         condition: service_healthy
+        # добавлен т.к. web-app не должно запускаться раньше чем БД
 
   database:
-    # image: nikolaipdk/store-postgres:v1
     image: postgres:15
-    container_name: 'Postgresql'
+    container_name: 'postgres_2'
     restart: unless-stopped  # не делать рестарт если я остановил, но если контейнер упал, то будет перезапущен. restart: always контейнер будет автоматически перезапускаться когда он остановился, не важно сам упал или я его остановил, перезагрузил.
     env_file:
       - .env
@@ -52,14 +48,13 @@ services:
       - 5432:5432
     healthcheck:
       test: ["CMD-SHELL", "pg_isready"]
-      interval: 90s  # раз в 15 сек
-      timeout: 10s  # 5 сек на то чтобы он подумал
+      interval: 15s  # раз в 15 сек
+      timeout: 5s  # 5 сек на то чтобы он подумал
       retries: 3  # если 3 раз подряд ответит неправильно то что-то случилось
-
+      
   pgadmin:
-    # image: nikolaipdk/store-pgadmin:v1
+    container_name: 'pgadmin_2'
     image: dpage/pgadmin4
-    container_name: 'pgadmin4'
     restart: unless-stopped
     environment:
       PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL}
@@ -68,22 +63,21 @@ services:
       - 5050:80
 
   redis:  # У Celery есть 2 варианта брокера Redis(бд) и RabbitMQ(менеджер очередей) вторая мощнее: можно прописывать приоритеты для tasks, но сложнее установить
-    # image: nikolaipdk/store-redis:v1
-    image: redis:7.2
+    image: redis:7.2  # NoSQL 
     hostname: redis
-    container_name: 'redis'
+    container_name: redis
 
-  worker:
-    #image: nikolaipdk/store-celery:v1
-    container_name: 'celery'
+  worker:   #  Еще есть Celery beat — планировщик, который определяет, когда запускать задачи и для планирования периодических задач.
+    #  https://proglib.io/p/django-celery-i-redis-gayd-po-rabote-s-asinhronnymi-zadachami-2022-08-22
+    container_name: celery
     restart: unless-stopped
     env_file:  # добавил тк была ошибка после установки environ и переменных в (.env) | ошибка: django.core.exceptions.ImproperlyConfigured: Set the SECRET_KEY environment variable
       - .env
-    build:
+    build: 
       context: .
     hostname: worker  # по какому hostname в докере будем определять этот сервис
     entrypoint: celery  # команда с которой будем вызвать другие команды к этому сервису
-    command: -A store worker --loglevel=info  # '-A core' это '--app=core' ?? | loglevel уровень логирования для данного workerа, тк тестовый то логируем все info, на prodaction loglevel=varning или =error
+    command: -A store worker --loglevel=info  # '-A core' это '--app=core' ?? | loglevel уровень логирования для данного workerа, тк тестовый то логируем все info, на production loglevel=varning или =error
     #  celery.py - файл | app - переменная в файле celery.py | worker - создаем worker
     volumes:
       - ./store:/store
@@ -95,15 +89,13 @@ services:
       - store-app
 
   flower:
-    # image: nikolaipdk/store-flower:v1
-    container_name: 'flower'
     build:
       context: .
     hostname: flower
     env_file:  # добавил тк была ошибка после установки environ и переменных в (.env) | ошибка: django.core.exceptions.ImproperlyConfigured: Set the SECRET_KEY environment variable
       - .env
     entrypoint: celery
-    command: -A store flower
+    command: -A store flower 
     volumes:
       - ./store:/store
     links:
@@ -112,6 +104,7 @@ services:
       - redis
     ports:
       - '5555:5555'
-      
+
 volumes:
   my_db:
+    
